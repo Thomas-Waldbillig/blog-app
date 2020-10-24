@@ -16,7 +16,7 @@ model User {
   passwordHash String
   posts        Post[]
   createdAt    DateTime  @default(now())
-  updatedAt    DateTime  @updatedAt
+  updatedAt    DateTime  @default(now()) @updatedAt
   Comment      Comment[]
 }
 
@@ -31,7 +31,7 @@ model Post {
   comments    Comment[]
   categories  Category[]
   createdAt   DateTime   @default(now())
-  updatedAt   DateTime   @updatedAt
+  updatedAt   DateTime   @default(now()) @updatedAt
 }
 
 model Category {
@@ -40,7 +40,7 @@ model Category {
   slug      String
   post      Post[]
   createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  updatedAt DateTime @default(now()) @updatedAt
 }
 
 model Comment {
@@ -51,7 +51,7 @@ model Comment {
   post      Post     @relation(fields: [postId], references: [id])
   postId    String
   createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  updatedAt DateTime @default(now()) @updatedAt
 }
 
 model Tag {
@@ -59,5 +59,5 @@ model Tag {
   title     String
   slug      String
   createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  updatedAt DateTime @default(now()) @updatedAt
 }
