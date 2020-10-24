@@ -2,14 +2,29 @@
 # THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
 # ------------------------------------------------------
 
-type Comment {
+type User {
+  id: String!
+  firstName: String!
+  lastName: String!
+  userName: String!
+  email: String!
+  passwordHash: String!
+  posts: [Post!]!
+  comments: [Comment!]!
+  createdAt: String!
+  updatedAt: String!
+}
+
+type Post {
+  id: String!
+  title: String!
+  content: String!
+  slug: String!
+  publishedAt: DateTime!
   author: User!
   authorId: String!
-  content: String!
+  comments: [Comment!]!
   createdAt: String!
-  id: String!
-  post: Post!
-  postId: String!
   updatedAt: String!
 }
 
@@ -18,34 +33,32 @@ A date-time string at UTC, such as 2019-12-03T09:54:33Z, compliant with the date
 """
 scalar DateTime
 
-type Post {
+type Comment {
+  id: String!
+  content: String!
   author: User!
   authorId: String!
-  comments: [Comment!]!
-  content: String!
+  post: Post!
+  postId: String!
   createdAt: String!
-  id: String!
-  publishedAt: DateTime!
-  slug: String!
-  title: String!
   updatedAt: String!
 }
 
 type Query {
   comments: [Comment!]!
-  posts: [Post!]!
+  post(id: String!): Post!
+  posts(sortBy: PostOrderField, sortDirection: SortOder, skip: Int = 0, take: Int = 25, cursor: String): [Post!]!
   users: [User!]!
 }
 
-type User {
-  comments: [Comment!]!
-  createdAt: String!
-  email: String!
-  firstName: String!
-  id: String!
-  lastName: String!
-  passwordHash: String!
-  posts: [Post!]!
-  updatedAt: String!
-  userName: String!
+enum PostOrderField {
+  title
+  createdAt
+  publishedAt
+  updatedAt
+}
+
+enum SortOder {
+  asc
+  desc
 }

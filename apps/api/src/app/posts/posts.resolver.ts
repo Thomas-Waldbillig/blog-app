@@ -1,9 +1,11 @@
-import { Parent, Query, ResolveField, Resolver } from '@nestjs/graphql';
+import { Args, Parent, Query, ResolveField, Resolver } from '@nestjs/graphql';
 import * as DataLoader from 'dataloader';
 import { Comment } from '../comments/comment';
 import { CommentsService } from '../comments/comments.service';
 import { User } from '../users/user';
 import { UsersService } from '../users/users.service';
+import { FindManyPostsDto } from './dto/find-many-posts.dto';
+import { FindOnePostDto } from './dto/find-one-post.dto';
 import { Post } from './post';
 import { PostsService } from './posts.service';
 
@@ -15,9 +17,19 @@ export class PostsResolver {
     private userService: UsersService
   ) {}
 
+  @Query(() => Post)
+  async post(@Args() args: FindOnePostDto) {
+    return await this.postService.findOne({ where: { id: args.id } });
+  }
+
   @Query(() => [Post])
-  async posts() {
-    return await this.postService.findMany();
+  async posts(@Args() args: FindManyPostsDto) {
+    return await this.postService.findMany({
+      orderBy: { [args.sortBy]: args.sortDirection },
+      take: args.take,
+      skip: args.skip,
+      cursor: args.cursor ? { id: args.cursor } : undefined,
+    });
   }
 
   @ResolveField()
