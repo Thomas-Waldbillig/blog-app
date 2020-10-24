@@ -62,3 +62,19 @@ enum SortOder {
   asc
   desc
 }
+
+type Mutation {
+  createdPost(createdPostDao: CreatePostDao!): Post!
+}
+
+input CreatePostDao {
+  authorId: String!
+  title: String!
+  content: String!
+  slug: String!
+  publishedAt: String
+}
+
+type Subscription {
+  postCreated: Post!
+}
