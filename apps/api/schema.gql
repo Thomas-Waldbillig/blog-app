@@ -2,6 +2,17 @@
 # THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
 # ------------------------------------------------------
 
+type Comment {
+  author: User!
+  authorId: String!
+  content: String!
+  createdAt: String!
+  id: String!
+  post: Post!
+  postId: String!
+  updatedAt: String!
+}
+
 """
 A date-time string at UTC, such as 2019-12-03T09:54:33Z, compliant with the date-time format.
 """
@@ -10,6 +21,7 @@ scalar DateTime
 type Post {
   author: User!
   authorId: String!
+  comments: [Comment!]!
   content: String!
   createdAt: String!
   id: String!
@@ -20,11 +32,13 @@ type Post {
 }
 
 type Query {
+  comments: [Comment!]!
   posts: [Post!]!
   users: [User!]!
 }
 
 type User {
+  comments: [Comment!]!
   createdAt: String!
   email: String!
   firstName: String!

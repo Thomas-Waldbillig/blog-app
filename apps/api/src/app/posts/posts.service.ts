@@ -1,5 +1,9 @@
 import { Injectable } from '@nestjs/common';
-import { FindManyPostArgs, Post as RawPost } from '@prisma/client';
+import {
+  FindManyPostArgs,
+  FindOnePostArgs,
+  Post as RawPost,
+} from '@prisma/client';
 import { PrismaService } from '../prisma/prisma.service';
 import { Post } from './post';
 
@@ -7,21 +11,26 @@ import { Post } from './post';
 export class PostsService {
   constructor(private prismaService: PrismaService) {}
 
-  async findMany(args?: FindManyPostArgs): Promise<Post[]> {
-    const posts = await this.prismaService.post.findMany(args);
-    return posts.map((rawPost) => this.parse(rawPost));
+  async findOne(args?: FindOnePostArgs): Promise<Post> {
+    const data = await this.prismaService.post.findOne(args);
+    return this.parse(data);
   }
 
-  private parse(rawPost: RawPost): Post {
+  async findMany(args?: FindManyPostArgs): Promise<Post[]> {
+    const data = await this.prismaService.post.findMany(args);
+    return data.map((datum) => this.parse(datum));
+  }
+
+  private parse(datum: RawPost): Post {
     return {
-      id: rawPost.id,
-      title: rawPost.title,
-      content: rawPost.content,
-      slug: rawPost.slug,
-      publishedAt: rawPost.publishedAt,
-      createdAt: rawPost.createdAt,
-      updatedAt: rawPost.updatedAt,
-      authorId: rawPost.authorId,
+      id: datum.id,
+      title: datum.title,
+      content: datum.content,
+      slug: datum.slug,
+      publishedAt: datum.publishedAt,
+      createdAt: datum.createdAt,
+      updatedAt: datum.updatedAt,
+      authorId: datum.authorId,
     };
   }
 }

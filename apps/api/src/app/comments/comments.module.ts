@@ -1,13 +1,13 @@
 import { Module } from '@nestjs/common';
-import { CommentsService } from '../comments/comments.service';
 import { PostsService } from '../posts/posts.service';
 import { PrismaService } from '../prisma/prisma.service';
-import { UsersResolver } from './users.resolver';
-import { UsersService } from './users.service';
+import { UsersService } from '../users/users.service';
+import { CommentsResolver } from './comments.resolver';
+import { CommentsService } from './comments.service';
 
 @Module({
   providers: [
-    UsersResolver,
+    CommentsResolver,
 
     CommentsService,
     PostsService,
@@ -15,4 +15,4 @@ import { UsersService } from './users.service';
     UsersService,
   ],
 })
-export class UsersModule {}
+export class CommentsModule {}

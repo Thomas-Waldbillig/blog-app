@@ -12,24 +12,25 @@ export class UsersService {
   constructor(private prismaService: PrismaService) {}
 
   async findOne(args: FindOneUserArgs): Promise<User> {
-    return this.parse(await this.prismaService.user.findOne(args));
+    const data = await this.prismaService.user.findOne(args);
+    return this.parse(data);
   }
 
   async findMany(args?: FindManyUserArgs): Promise<User[]> {
-    const users = await this.prismaService.user.findMany(args);
-    return users.map((rawUser) => this.parse(rawUser));
+    const data = await this.prismaService.user.findMany(args);
+    return data.map((datum) => this.parse(datum));
   }
 
-  private parse(rawUser: RawUser): User {
+  private parse(datum: RawUser): User {
     return {
-      id: rawUser.id,
-      firstName: rawUser.firstName,
-      lastName: rawUser.lastName,
-      email: rawUser.email,
-      userName: rawUser.userName,
-      passwordHash: rawUser.passwordHash,
-      createdAt: rawUser.createdAt,
-      updatedAt: rawUser.updatedAt,
+      id: datum.id,
+      firstName: datum.firstName,
+      lastName: datum.lastName,
+      email: datum.email,
+      userName: datum.userName,
+      passwordHash: datum.passwordHash,
+      createdAt: datum.createdAt,
+      updatedAt: datum.updatedAt,
     };
   }
 }

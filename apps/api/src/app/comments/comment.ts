@@ -1,23 +1,14 @@
 import { Field, ObjectType } from '@nestjs/graphql';
-import { Comment } from '../comments/comment';
+import { Post } from '../posts/post';
 import { User } from '../users/user';
 
 @ObjectType()
-export class Post {
+export class Comment {
   @Field(() => String)
   id: string;
 
   @Field(() => String)
-  title: string;
-
-  @Field(() => String)
   content: string;
-
-  @Field(() => String)
-  slug: string;
-
-  @Field(() => Date)
-  publishedAt: Date;
 
   @Field(() => User)
   author?: User;
@@ -25,11 +16,11 @@ export class Post {
   @Field(() => String)
   authorId: string;
 
-  @Field(() => [Comment])
-  comments?: Comment[];
+  @Field(() => Post)
+  post?: Post;
 
-  // @Field(() => String)
-  // categories  Category[]
+  @Field(() => String)
+  postId: string;
 
   @Field(() => String)
   createdAt: Date;
